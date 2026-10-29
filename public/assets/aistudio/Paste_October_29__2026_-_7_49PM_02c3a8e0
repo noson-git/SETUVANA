@@ -1,0 +1,1371 @@
+# MASTER BUILD PROMPT: SETUVANA
+## Smart Rural Tourism, Offline-First Homestay Booking & AI Connectivity Platform
+
+### YOUR ROLE
+
+Act as an elite full-stack engineering team consisting of a senior software architect, product designer, offline-systems engineer, AI engineer, cybersecurity specialist, telecommunications integration engineer and startup product strategist.
+
+Build **SETUVANA**, a complete, premium-quality, responsive, full-stack web application designed to connect tribal and rural homestays in Odisha with travellers, even when internet connectivity is weak or unavailable.
+
+**Brand name:** SETUVANA
+
+**Brand positioning:** Every Village Connected to Opportunity.
+
+**Core mission:** Make rural homestays discoverable, bookable, trustworthy and operationally accessible regardless of the host's digital literacy, smartphone ownership or internet connectivity.
+
+This project addresses the OSFIC problem statement concerning the digital accessibility and organized booking of tribal homestays supported by rural and tribal development initiatives.
+
+Do not build a generic hotel-booking website. Build a connectivity-resilient rural tourism infrastructure platform.
+
+**Non-negotiable instruction:** Implement the application, not just a plan, design mockup or landing page. All major pages must connect to the same backend and data model. Every visible control must perform its advertised action. Do not stop after building the homepage.
+
+When external credentials are unavailable, complete the integration architecture, provide a fully functional and explicitly labelled simulation mode, and explain the exact steps required to activate the real service.
+
+---
+
+# 1. PRODUCT VISION
+
+SETUVANA connects four groups:
+
+1. **Travellers:** Discover, compare, request and manage rural homestay reservations.
+2. **Homestay hosts:** Receive and respond to reservations, even using ordinary keypad phones.
+3. **Village coordinators:** Help hosts manage bookings, listings, arrivals and communication.
+4. **Administrators and authorized tourism partners:** Manage listings, verification, operations, quality and impact reporting.
+
+The application must solve these real problems:
+
+- Rural homestays are difficult to discover online.
+- Property information and availability can be outdated.
+- Hosts may not have smartphones, mobile internet or the skills to manage booking applications.
+- Travellers cannot reliably contact some hosts before arriving.
+- Weak connectivity interrupts booking workflows.
+- Offline bookings may conflict with existing reservations.
+- Travellers may arrive without downloaded directions or reliable check-in information.
+- Coordinators need a structured way to manage multiple hosts.
+- Communities need transparent, sustainable access to tourism-related income.
+
+The distinguishing feature of SETUVANA is that it connects digital booking systems to real-world communication channels, including voice calls, SMS and human-assisted coordination.
+
+Do not claim to replace government registration portals, official tourism databases or regulatory authorities.
+
+Do not fabricate government partnerships, verified properties, reviews or impact statistics.
+
+---
+
+# 2. TECHNOLOGY STACK AND ARCHITECTURE
+
+Use the current Google AI Studio full-stack application environment.
+
+Preferred stack:
+
+- Frontend: React and TypeScript.
+- Styling: Tailwind CSS or an equivalent maintainable styling system.
+- Backend: Node.js server-side services and API routes.
+- Database: Firebase Cloud Firestore.
+- Authentication: Firebase Authentication.
+- Local database: IndexedDB.
+- Offline application support: Progressive Web App, service worker and web app manifest.
+- AI: Gemini API through secure server-side calls.
+- Voice and SMS: An adapter for a supported Indian telephony provider, such as Exotel.
+- Maps: A configurable mapping provider, with ordinary directions links and offline text instructions.
+- Testing: Automated unit tests and integration tests where supported.
+
+Inspect the available environment before implementation. Use compatible packages and actual supported APIs. Do not invent integrations.
+
+Use Firebase integration if available and appropriate in the current AI Studio project.
+
+Separate the code into maintainable modules for:
+
+- Authentication and permissions.
+- Localization.
+- Property discovery.
+- Booking management.
+- Host management.
+- Coordinator operations.
+- Offline storage.
+- Synchronization.
+- AI assistance.
+- Telephony and SMS.
+- Notifications.
+- Analytics.
+- Administration.
+- Security and validation.
+
+Store secrets only in server-side environment configuration or the environment's secure secret manager.
+
+Never expose Gemini API keys, telephony credentials, privileged Firebase credentials or other secrets in client-side code.
+
+Create a README documenting configuration, environment variables, installation, deployment, testing, limitations and production activation.
+
+---
+
+# 3. ODIA LANGUAGE IS A FIRST-CLASS REQUIREMENT
+
+This is a mandatory core feature, not a future enhancement.
+
+SETUVANA must support three languages throughout the application:
+
+1. **ଓଡ଼ିଆ — Odia**
+2. **English**
+3. **हिन्दी — Hindi**
+
+Odia must be treated as an equally important product language, particularly for hosts and village coordinators in Odisha.
+
+## Language selector
+
+Add a clearly visible language selector in the main navigation, login screen and relevant user settings.
+
+Display the language names in their native scripts:
+
+- ଓଡ଼ିଆ
+- English
+- हिन्दी
+
+Remember the user's selected language across sessions where appropriate.
+
+Allow users to change the language at any time without losing their current form, booking or workflow state.
+
+Provide sensible fallbacks when a particular translation is unavailable.
+
+## Translate the entire interface
+
+The selected language must apply consistently to:
+
+- Landing page.
+- Navigation and menus.
+- Search and filters.
+- Property cards.
+- Property detail pages.
+- Booking forms.
+- Booking status messages.
+- Login and account settings.
+- Host dashboard.
+- Coordinator dashboard.
+- Administrator interface.
+- Forms, buttons and labels.
+- Validation messages.
+- Errors and retry instructions.
+- Offline status indicators.
+- Synchronization queue.
+- Connectivity panel.
+- Arrival packs.
+- Notifications and settings.
+- Help centre and FAQs.
+- Accessibility labels.
+- Empty states and loading states.
+- Confirmation and cancellation flows.
+
+Do not implement a language switcher that changes only the homepage.
+
+Use a proper internationalization system with translation dictionaries or structured locale files. Do not scatter hardcoded translations throughout components.
+
+## Odia typography
+
+Use a readable Odia-compatible font, such as Noto Sans Oriya, where licensing and availability permit.
+
+Use Unicode correctly. Ensure Odia text renders properly on desktop, low-end Android devices, printed summaries and SMS messages where supported.
+
+Avoid layouts that break when Odia text is longer than the English equivalent.
+
+Use appropriate line heights and readable font sizes.
+
+## AI language assistance
+
+Allow hosts and coordinators to generate or translate property descriptions into Odia, English and Hindi.
+
+AI-generated translations must be editable and must not invent prices, facilities, registration details or cultural information.
+
+Preserve local place names, community names and factual details.
+
+Display generated content as a draft until approved by the host or authorized coordinator.
+
+## SmartCall language preferences
+
+Allow each host to choose a preferred notification language:
+
+- Odia.
+- Hindi.
+- English.
+
+Use that language for the automated voice call, SMS template and spoken keypad menu wherever the selected provider and speech technology support it.
+
+Do not claim production-quality Odia voice synthesis or speech recognition until the chosen provider has been tested for it.
+
+If Odia speech generation is unavailable, use an approved recorded Odia prompt or a clearly disclosed alternative language selected with the host's consent.
+
+Never silently switch a host to a language they have not chosen.
+
+## Language testing
+
+Test the main booking journey in all three languages.
+
+Verify that:
+
+- Language switching works across routes.
+- Odia characters are preserved in the database.
+- User-entered text survives refresh and offline synchronization.
+- Booking statuses and error messages are translated.
+- SMS encoding and message length are handled appropriately.
+- Generated voice scripts contain the correct dates, times and names.
+- The selected language survives connectivity interruptions.
+
+---
+
+# 4. THREE CONNECTIVITY MODES
+
+Build connectivity resilience into the entire application.
+
+Connectivity is a system-wide capability, not a decorative icon.
+
+## Mode A: Good connectivity
+
+When the server is reachable:
+
+- Load current listings.
+- Search properties.
+- Check server-backed availability.
+- Submit booking requests.
+- Update host inventory.
+- Send configured notifications.
+- Receive host responses.
+- Upload property photographs.
+- Synchronize local records.
+- Load maps and directions.
+- Update coordinator tasks.
+- Show current booking status.
+- Retrieve current server data.
+
+## Mode B: Weak or intermittent connectivity
+
+When requests are slow or repeatedly fail:
+
+- Prioritize lightweight content.
+- Use compact property cards.
+- Avoid unnecessary animation and video.
+- Load images on demand.
+- Compress photographs before upload.
+- Reduce unnecessary network requests.
+- Preserve forms and user edits locally.
+- Queue retryable operations.
+- Display the age of cached information.
+- Offer manual synchronization.
+- Use bounded retries and exponential backoff.
+- Prevent duplicate bookings and notifications.
+- Keep critical information accessible.
+
+Allow users to activate a manual low-data mode if connection detection is unreliable.
+
+Do not claim to measure network quality unless actual measurements support that claim.
+
+## Mode C: No internet
+
+Previously downloaded content should remain accessible through the installed PWA, subject to browser support and device storage.
+
+Offline features must include:
+
+- Cached application shell.
+- Saved property summaries and details.
+- Offline property search.
+- Saved travel itinerary.
+- Downloaded arrival packs.
+- Plain-text directions.
+- Locally drafted booking requests.
+- Locally drafted property updates.
+- Coordinator task drafts.
+- Previously synchronized booking summaries where safe.
+- Offline check-in and arrival notes.
+- Pending synchronization queue.
+- Synchronization history.
+- Manual retry when connectivity returns.
+
+Display a clear status for each operation:
+
+- Saved on this device.
+- Waiting to synchronize.
+- Synchronizing.
+- Synchronized.
+- Conflict requires review.
+- Failed; retry available.
+
+### Offline booking rule
+
+A locally saved booking is not a submitted booking.
+
+Display:
+
+**“Saved on this device. This request has not yet reached the host.”**
+
+Never show a confirmed reservation while the request is only stored locally.
+
+When connectivity returns:
+
+1. Submit the request using an idempotency key.
+2. Authenticate and authorize the user.
+3. Validate the booking data.
+4. Check current server availability.
+5. Detect conflicting reservations.
+6. Create a pending request if it is valid.
+7. Initiate the configured host-notification workflow.
+8. Update the local record with the server response.
+9. Notify the traveller of the real status.
+
+If the requested dates are no longer available, suggest alternatives.
+
+### Offline communication rule
+
+A fully disconnected device cannot send new information to the server or initiate a cloud-based telephone call.
+
+However, a host with cellular voice/SMS coverage but no mobile internet can still receive SmartCall notifications.
+
+If no communication channel is available, record the failure and escalate it to the coordinator.
+
+---
+
+# 5. GLOBAL CONNECTIVITY PANEL AND TEST LAB
+
+Add a persistent connectivity indicator.
+
+It should display:
+
+- Online.
+- Online with pending synchronization.
+- Low-data mode.
+- Offline.
+- Synchronization in progress.
+- Failed operations.
+- Last successful synchronization time.
+
+Clicking the indicator opens a detailed panel with:
+
+- Pending operations.
+- Recent synchronization attempts.
+- Failed items.
+- Retry controls.
+- Manual synchronization.
+- Cache management.
+- Offline storage status.
+- Low-data settings.
+- Safe local-data clearing.
+
+Create an administrator/developer-only Connectivity Test Lab.
+
+It must simulate:
+
+- Good connectivity.
+- Weak connectivity.
+- No internet.
+- Failed requests.
+- Interrupted synchronization.
+- Conflicting bookings.
+- Failed telephone calls.
+- Delayed SMS.
+- Coordinator escalation.
+
+Every simulated outcome must be labelled **SIMULATION**.
+
+Simulated connectivity must affect test workflows, not falsely report actual provider results.
+
+Do not rely solely on background synchronization, which is not consistently supported by all browsers. Manual synchronization and reliable retry-on-reconnection behavior are mandatory.
+
+---
+
+# 6. USER ROLES AND SHARED WORKFLOWS
+
+Implement four roles using one application and a shared backend.
+
+## A. Traveller
+
+Features:
+
+- Discover homestays.
+- Search destinations.
+- Filter by dates, guest capacity, price and facilities.
+- View property details.
+- Check availability status.
+- Save properties and itineraries.
+- Submit booking requests.
+- Track confirmation.
+- View reservation history.
+- Request cancellation.
+- View applicable cancellation terms.
+- Download arrival packs.
+- Request pickup and community experiences.
+- Contact approved support channels.
+- Submit reviews after eligible completed stays.
+- Report problems.
+- Use saved content offline.
+- Change application language.
+
+## B. Homestay host
+
+Features:
+
+- Create and manage property listings.
+- Manage rooms, capacity and prices.
+- Maintain availability calendars.
+- Set check-in and checkout information.
+- List facilities and meals.
+- Upload photographs.
+- Receive and respond to booking requests.
+- Review booking history.
+- Configure notification language.
+- Configure registered contact number.
+- Manage notification consent.
+- Review call and SMS outcomes.
+- Request coordinator assistance.
+- View completed stays and host-reported earnings.
+- Save permitted edits offline.
+- Synchronize changes.
+
+A host using only a keypad phone must still be able to participate without installing the application.
+
+## C. Village coordinator
+
+Features:
+
+- Manage assigned hosts.
+- Assist with onboarding.
+- Update authorized listings.
+- Review booking requests.
+- Follow up on unanswered notifications.
+- Handle failed calls and SMS.
+- Maintain a callback queue.
+- Record manually received bookings.
+- Coordinate arrivals and departures.
+- Assign pickup services.
+- Review conflicts.
+- Maintain offline operational notes.
+- Assist with connectivity recovery.
+- Generate printable daily registers.
+- Escalate incidents.
+- View community-level performance.
+
+Any action performed on behalf of a host must record the actor and authorization.
+
+## D. Administrator or authorized partner
+
+Features:
+
+- Manage users and permissions.
+- Review property listings.
+- Manage verification workflows.
+- Monitor reservations.
+- Monitor notification delivery.
+- Manage coordinator assignments.
+- Review incidents.
+- View connectivity metrics.
+- Export authorized data.
+- Manage integration configuration.
+- Review audit logs.
+- Manage consent and retention settings.
+- Inspect application health.
+- Configure demonstration mode.
+
+Enforce permissions on the server and in database rules. Do not treat a frontend role selector as production authentication.
+
+If authentication credentials are not configured, provide a clearly labelled development-only demo login.
+
+---
+
+# 7. SMARTCALL: AI VOICE CALL + SMS
+
+SmartCall is a signature feature and must be integrated with the booking lifecycle.
+
+## Objective
+
+When a valid booking request is created, the host receives:
+
+1. An automated voice call.
+2. A matching SMS.
+3. Keypad options to respond.
+
+The host does not need a smartphone or mobile internet, provided ordinary cellular calling/SMS coverage is available.
+
+## Sample call
+
+“Namaskar. This is SETUVANA calling about a new homestay booking request. The booking reference is 4821. Your guest plans to arrive on 14 November between 3 PM and 4 PM and leave on 16 November. There are three adults. Press 1 to accept the request, press 2 to decline, press 3 to request assistance from your village coordinator, or press 4 to hear these details again.”
+
+This is sample content only. Production calls must use real booking details.
+
+## Dynamic language generation
+
+Generate scripts in the host's selected language.
+
+Use verified booking data to populate dates, guest count, property reference and arrival time.
+
+AI may improve wording and translation but must never invent or change booking facts.
+
+## Keypad responses
+
+- Press 1: request acceptance; the server must revalidate availability.
+- Press 2: decline and notify the traveller.
+- Press 3: create a coordinator callback task.
+- Press 4: repeat the details.
+- Invalid input: repeat the menu within a configured limit.
+- No answer: keep the request pending and schedule a permitted retry.
+- Disconnected call: record the actual call outcome.
+
+Non-response must never count as acceptance.
+
+## SMS
+
+Send a plain-text message containing:
+
+- SETUVANA identity.
+- Booking reference.
+- Arrival date and estimated time.
+- Departure date.
+- Number of guests.
+- Current request status.
+- Response instructions.
+- Coordinator contact details when appropriate.
+
+Minimize sensitive guest information.
+
+Handle Odia Unicode and SMS encoding correctly. Avoid assuming every multilingual message fits into one SMS segment.
+
+## Notification status tracking
+
+Record:
+
+- Notification ID.
+- Booking ID.
+- Host ID.
+- Channel.
+- Provider.
+- Attempt number.
+- Current status.
+- Creation timestamp.
+- Provider reference.
+- Delivery receipt where available.
+- Call result.
+- Last error.
+- Next retry time.
+- Escalation state.
+
+Use accurate states such as queued, submitted to provider, ringing, answered, no answer, failed, delivered when confirmed, undelivered and escalated.
+
+Do not mark a notification delivered just because the provider accepted an API request.
+
+## Retry and escalation
+
+Implement bounded retries with configurable intervals, host-approved quiet hours and rate limits.
+
+After the retry limit:
+
+- Create a coordinator task.
+- Keep the booking pending.
+- Notify the traveller.
+- Allow an authorized coordinator to follow up.
+- Record the outcome.
+
+Respect host consent, opt-out controls, applicable telecom rules and provider limitations.
+
+## Live integration
+
+Implement a secure server-side telephony adapter using the selected provider's actual supported APIs.
+
+Support:
+
+- Outbound calls.
+- Approved voice prompts or TTS.
+- IVR/DTMF input.
+- Call-status callbacks.
+- SMS submission.
+- Delivery receipts where available.
+- Secure webhook verification.
+- Retry scheduling.
+- Idempotency.
+- Provider error handling.
+
+Use Exotel as an initial candidate where the selected account and API support the required functions.
+
+If dynamic TTS is not supported by the chosen call flow, use an approved recording or compatible TTS service.
+
+Do not simulate an actual telephone call using browser speech synthesis.
+
+## Environment configuration
+
+Document the provider's actual required server-side variables, such as:
+
+- Account identifier.
+- API key and token.
+- Registered virtual number.
+- Provider selection.
+- TTS configuration.
+- SMS configuration.
+- Public webhook URL.
+
+Use exact names and authentication requirements from the selected provider documentation.
+
+Live calling and SMS must remain disabled until the administrator configures the service, obtains the necessary consent and explicitly activates live mode.
+
+## Demo mode
+
+When live credentials are absent, implement a complete simulation.
+
+The demo must support:
+
+- Voice-script generation.
+- SMS preview.
+- Simulated incoming call screen.
+- Functional keypad responses.
+- Accept and decline workflows.
+- Repeated voice prompts.
+- Missed calls.
+- Failed SMS.
+- Retries.
+- Coordinator escalation.
+- Booking status updates.
+- Notification history.
+
+Every simulated event must be clearly labelled. Never claim a real call or SMS was sent.
+
+---
+
+# 8. RESERVATION ENGINE
+
+Implement a robust booking lifecycle with server-authoritative states:
+
+- Draft.
+- Saved offline.
+- Pending synchronization.
+- Request submitted.
+- Awaiting host response.
+- Confirmed.
+- Declined.
+- Conflict requiring review.
+- Cancellation requested.
+- Cancelled.
+- Checked in.
+- Completed.
+- No-show.
+- Expired.
+
+Every booking must have:
+
+- Unique reference.
+- Traveller ID.
+- Property and room IDs.
+- Check-in and checkout dates.
+- Estimated arrival time.
+- Number of guests.
+- Selected services.
+- Price snapshot.
+- Cancellation terms.
+- Host response.
+- Creation and update timestamps.
+- Notification history.
+- Audit history.
+- Synchronization state.
+- Booking source.
+
+## Confirmation process
+
+1. Validate input.
+2. Check user authorization.
+3. Verify the property is active.
+4. Validate dates, room capacity and guest count.
+5. Check current availability.
+6. Detect overlapping reservations.
+7. Create a pending request.
+8. Notify the host.
+9. Process the host response.
+10. Revalidate inventory.
+11. Atomically reserve inventory when accepted.
+12. Confirm the booking.
+13. Notify the traveller.
+14. Record the event.
+
+Use Firestore transactions or another concurrency-safe mechanism where appropriate.
+
+Prevent duplicate reservations using idempotency keys.
+
+Use a documented expiry policy for pending inventory holds.
+
+If two coordinators submit conflicting bookings, detect the conflict and require resolution.
+
+Do not implement fake payment processing. Allow payment on arrival only when the host explicitly offers it. Never report an unverified payment as completed.
+
+---
+
+# 9. PREMIUM TRAVELLER EXPERIENCE
+
+Create a polished public landing page with:
+
+- SETUVANA branding.
+- A compelling headline.
+- Destination and date search.
+- Guest-count selector.
+- Featured homestays.
+- Community experiences.
+- How it works.
+- Responsible tourism messaging.
+- Host onboarding.
+- Connectivity-resilience explanation.
+- Trust and verification information.
+- Language selector.
+- Accessible footer.
+
+## Search and filters
+
+Implement:
+
+- Destination and village.
+- Dates.
+- Guest count.
+- Price range.
+- Room type.
+- Facilities.
+- Meal availability.
+- Drinking water and sanitation information.
+- Family suitability.
+- Accessibility.
+- Pickup availability.
+- Verification status.
+- Cached offline listings.
+- Sorting by suitability, price and available location data.
+
+Never present stale cached availability as currently verified.
+
+## Property details
+
+Include:
+
+- Photographs.
+- Name and location.
+- Description.
+- Room types and capacity.
+- Prices.
+- Facilities.
+- Meals and optional services.
+- House rules.
+- Check-in information.
+- Host contact options.
+- Pickup information.
+- Verification status.
+- Last-verified timestamp.
+- Reviews.
+- Booking request form.
+- Save offline.
+- Share.
+- Report inaccurate information.
+
+Use realistic demo data, clearly marked as demonstration content. Do not invent official government registration or real-world host endorsements.
+
+---
+
+# 10. AI-ASSISTED HOST ONBOARDING
+
+Build a simple, guided listing creation process.
+
+Hosts and coordinators should be able to:
+
+- Enter basic property details.
+- Dictate a description where supported.
+- Upload photographs.
+- Save drafts offline.
+- Generate a property description using Gemini.
+- Suggest a concise title.
+- Structure facilities.
+- Translate into Odia, English and Hindi.
+- Review and edit generated text.
+- Submit the listing for review.
+
+AI must never invent:
+
+- Facilities.
+- Prices.
+- Room availability.
+- Government registration.
+- Cultural claims.
+- Community partnerships.
+- Nearby attractions.
+
+Generated descriptions must remain drafts until approved.
+
+## Offline voice capture
+
+Allow local voice recording for a draft if microphone permissions and browser support are available.
+
+If offline, save the recording locally and queue its upload. Cloud transcription and Gemini processing must wait until connectivity returns.
+
+Offer text input as a fallback.
+
+---
+
+# 11. BOOKABILITY PASSPORT AND VERIFICATION
+
+Give each listing a structured Bookability Passport.
+
+Include:
+
+- Listing completeness.
+- Host-supplied information.
+- Contact details verification.
+- Registration status and verification source, where independently checked.
+- Facilities and room capacity.
+- Pricing.
+- Availability freshness.
+- Host notification preference.
+- Last successful contact attempt.
+- Last synchronization.
+- Sanitation and accessibility details.
+- Inspection details where recorded.
+- Open issues.
+
+Use precise labels:
+
+- Information supplied by host.
+- Contact checked.
+- Facilities checked by participating coordinator.
+- Registration verified against an identified source.
+- Information requires reconfirmation.
+
+Never imply official approval without supporting evidence.
+
+Create a review queue for incomplete or outdated listings.
+
+---
+
+# 12. VILLAGE COORDINATION DESK
+
+Create an operational dashboard with:
+
+- Assigned host directory.
+- Pending bookings.
+- Unanswered requests.
+- Failed calls and SMS.
+- Callback tasks.
+- Listing corrections.
+- Offline changes awaiting sync.
+- Potential booking conflicts.
+- Daily arrivals and departures.
+- Pickup requests.
+- Guest assistance.
+- Host onboarding.
+- Incident escalation.
+
+Support a shared booking calendar.
+
+Allow coordinators to record in-person, telephone, SMS and online inquiries.
+
+When a record is created offline, mark it as local and unsynchronized.
+
+Detect duplicates during synchronization.
+
+Provide printable daily arrival registers and booking summaries.
+
+Record every authorized action taken on behalf of a host.
+
+---
+
+# 13. OFFLINE ARRIVAL PACK
+
+Every eligible confirmed reservation should provide a downloadable arrival pack.
+
+Include:
+
+- Booking reference.
+- Property name.
+- Host-approved contact details.
+- Arrival and departure times.
+- Check-in instructions.
+- Verified landmarks.
+- Nearest known transport point.
+- Confirmed pickup arrangements.
+- Directions link.
+- Plain-text offline directions.
+- House rules.
+- Coordinator contact.
+- Last-download timestamp.
+
+Make the arrival pack usable offline.
+
+Support printing and sharing through available browser capabilities.
+
+Do not promise live navigation or traffic information without the required service.
+
+---
+
+# 14. CONNECTIVITY OBSERVATION MAP
+
+Allow users and coordinators to report connectivity observations voluntarily.
+
+Where available and consented to, record:
+
+- Approximate location.
+- Network operator.
+- Date and time.
+- Reported voice-call availability.
+- Reported SMS availability.
+- Reported mobile-data availability.
+- Simple signal-quality category.
+- Relevant test method.
+
+Display aggregated observations with their age.
+
+Clearly label crowdsourced observations. They are not guaranteed coverage or official network maps.
+
+Avoid collecting unnecessary precise location histories.
+
+---
+
+# 15. COMMUNITY EXPERIENCES AND PICKUP
+
+Allow participating community members to offer:
+
+- Local pickup.
+- Local guide services.
+- Traditional meals.
+- Craft demonstrations.
+- Community-approved cultural experiences.
+- Local transport.
+- Other host-approved services.
+
+Travellers can request services during booking or later.
+
+Providers or authorized coordinators must confirm availability.
+
+Track service status:
+
+- Requested.
+- Awaiting confirmation.
+- Confirmed.
+- Cancelled.
+- Completed.
+
+Display prices and conditions transparently.
+
+Require appropriate community consent and do not expose sensitive cultural locations.
+
+---
+
+# 16. TRAVELLER AI ASSISTANT
+
+Build an AI assistant grounded in actual platform information.
+
+It can help with:
+
+- Comparing suitable homestays.
+- Understanding facilities.
+- Explaining booking instructions.
+- Preparing travel checklists.
+- Exploring available experiences.
+- Translating ordinary booking information.
+- Answering common questions.
+
+Rules:
+
+- Use actual stored property data.
+- Never invent availability, pricing or booking status.
+- Never promise unconfirmed transport.
+- Protect guest privacy.
+- Provide non-AI alternatives for essential actions.
+- Use cached FAQs offline.
+- Explain when live AI assistance is unavailable.
+- Call Gemini securely from the backend.
+- Apply validation, rate limits and error handling.
+
+---
+
+# 17. REVIEWS, TRUST AND INCIDENTS
+
+Implement:
+
+- Reviews for eligible completed stays.
+- Review moderation.
+- Review reporting.
+- Host responses.
+- Verified booking indicators.
+- Cancellation policy.
+- Cancellation requests.
+- Guest incident reports.
+- Host incident reports.
+- Coordinator escalation.
+- Resolution history.
+
+Never fabricate ratings or testimonials.
+
+Do not require users to leave reviews.
+
+Use fair, transparent listing-ranking rules. Do not permanently disadvantage hosts simply because they lack professional photographs or digital marketing skills.
+
+---
+
+# 18. PAYMENTS AND REVENUE REPORTING
+
+Do not create a fake payment gateway.
+
+Support clearly labelled booking arrangements such as:
+
+- Request and confirm.
+- Pay directly to the host where offered.
+- Coordinator-assisted reservation.
+- Future online payment integration.
+
+Distinguish requested, received and verified payments.
+
+Never mark payment successful without a real provider confirmation.
+
+Provide authorized reports for:
+
+- Completed stays.
+- Bookings by community.
+- Host-reported revenue.
+- Optional service revenue.
+- Cancellation rates.
+- Unanswered requests.
+- Booking conflicts.
+- Connectivity-related failures.
+
+Do not expose unnecessary household financial information.
+
+---
+
+# 19. ADMIN DASHBOARD AND IMPACT ANALYTICS
+
+Build a functional administration dashboard showing:
+
+- Total properties.
+- Active listings.
+- Listings requiring review.
+- Booking requests.
+- Confirmed reservations.
+- Completed stays.
+- Cancellation rate.
+- Host response rate.
+- Average response time.
+- Failed calls and SMS.
+- Coordinator escalation tasks.
+- Pending synchronization.
+- Booking conflicts.
+- Arrival-pack downloads.
+- Connectivity reports.
+- Community service bookings.
+- Host-reported earnings.
+
+Show the date range, source and calculation for each metric.
+
+Clearly separate demonstration data from real data.
+
+Provide authorized CSV exports.
+
+Maintain audit logs for:
+
+- Booking acceptance.
+- Confirmation.
+- Cancellation.
+- Inventory changes.
+- Contact-number changes.
+- Verification updates.
+- Coordinator actions.
+- Role changes.
+- Telephony configuration.
+
+---
+
+# 20. DATA MODEL
+
+Create a coherent Firestore data model covering:
+
+- Users.
+- Communities.
+- Hosts.
+- Properties.
+- Rooms.
+- Availability.
+- Bookings.
+- Guest profiles.
+- Host preferences.
+- Consent records.
+- Notification events.
+- Telephony events.
+- Coordinator tasks.
+- Community services.
+- Reviews.
+- Incident reports.
+- Connectivity reports.
+- Synchronization events.
+- Audit logs.
+- Integration status.
+- Platform settings.
+
+Use unique IDs, timestamps, ownership references and explicit status fields.
+
+Avoid indefinitely growing documents containing entire event histories.
+
+Validate dates, prices, occupancy, permissions and references on the server.
+
+Configure indexes for relevant search and operational queries.
+
+Implement appropriate Firestore security rules.
+
+Provide demo seeding that can be rerun safely without creating duplicates.
+
+---
+
+# 21. SECURITY AND PRIVACY
+
+Implement:
+
+- Appropriate authentication.
+- Server-side authorization.
+- Ownership restrictions.
+- Coordinator assignment restrictions.
+- Secure administrative operations.
+- Input validation.
+- Safe rendering of user-generated content.
+- Rate limits.
+- Secure provider webhooks.
+- Consent-based host notifications.
+- Contact-detail protection.
+- Record-correction workflows.
+- Retention and deletion procedures.
+- Minimal collection of location data.
+- No default telephone-call recording.
+- Protection against duplicate provider events.
+- Secure secret management.
+- Safe offline storage and clearing.
+- Auditable privileged operations.
+
+Document applicable Indian telecom requirements, including sender registration, approved SMS templates and provider-specific configuration where required.
+
+Do not claim legal compliance merely because security controls exist.
+
+---
+
+# 22. VISUAL IDENTITY AND DESIGN
+
+Build a premium, modern, memorable brand identity for SETUVANA.
+
+Brand feeling:
+
+- Trustworthy.
+- Nature-connected.
+- Odisha-inspired.
+- Welcoming.
+- Technologically advanced.
+- Community-first.
+- Professional enough for government stakeholders, judges and investors.
+
+Suggested palette:
+
+- Deep forest green.
+- Natural ivory.
+- Muted terracotta.
+- Warm sand.
+- Dark charcoal.
+- Subtle brass accents.
+
+Use refined typography, generous spacing, strong visual hierarchy and high-quality imagery.
+
+Use tasteful Odisha-inspired visual details without stereotyping communities or treating cultural identity as decoration.
+
+Avoid generic AI dashboard design, excessive glassmorphism, neon gradients, overcrowding, excessive animations and tiny text.
+
+The public landing page should be visually compelling. Operational screens should prioritize clarity and speed.
+
+Use responsive layouts, accessible contrast, keyboard navigation, visible focus states and reduced-motion support.
+
+Design mobile-first for low-end Android devices and slower connections.
+
+Ensure Odia text remains readable across all screens.
+
+---
+
+# 23. EVERY INTERACTIVE ELEMENT MUST WORK
+
+Implement actual functionality for:
+
+- Search and filters.
+- Date and guest selectors.
+- Property navigation.
+- Booking forms.
+- Save offline.
+- Availability management.
+- Accept and decline actions.
+- SmartCall simulation.
+- SMS previews.
+- Notification retries.
+- Coordinator assignments.
+- Language selection.
+- Connectivity controls.
+- Manual synchronization.
+- CSV export.
+- Reviews.
+- Settings.
+- Login and logout.
+- Demo reset.
+- Arrival-pack downloads.
+- Integration configuration.
+
+Do not create decorative buttons.
+
+Do not pretend hardcoded arrays are a live backend.
+
+When a service is unavailable, display an honest configuration or error state.
+
+When an operation succeeds, update the underlying record and all relevant screens.
+
+When an operation fails, preserve user work and explain how to recover.
+
+Use maintainable components, appropriate TypeScript types and error boundaries.
+
+---
+
+# 24. OSFIC DEMONSTRATION MODE
+
+Create a polished demo environment using clearly labelled sample data.
+
+The demo must allow judges to explore the entire product without needing a live network of homestay owners.
+
+Demonstrate this complete journey:
+
+1. A traveller selects a property.
+2. The traveller selects dates and guest count.
+3. The traveller submits a booking request.
+4. The server validates the request.
+5. A notification event is created.
+6. SmartCall generates a voice script and SMS.
+7. The simulated host answers using keypad controls.
+8. The backend revalidates availability.
+9. The booking is confirmed or declined correctly.
+10. The traveller sees the actual resulting status.
+11. The arrival pack becomes available when appropriate.
+12. The coordinator dashboard updates.
+13. Analytics reflect demo events without presenting them as real impact.
+
+## Connectivity demonstration
+
+Include controls to simulate:
+
+- Online.
+- Weak connection.
+- Offline.
+- Reconnection.
+- Failed synchronization.
+- Reservation conflict.
+- Missed call.
+- Failed SMS.
+- Coordinator escalation.
+
+Demonstrate that an offline booking is saved locally but is not submitted until reconnection.
+
+Demonstrate synchronization and conflict handling.
+
+Demonstrate SmartCall keypad responses.
+
+Show the final confirmed state only after the required server-side checks succeed.
+
+Provide demo reset controls restricted to demonstration mode.
+
+Never initiate a real call, SMS, payment or other paid external action simply by opening the app or loading demo data.
+
+---
+
+# 25. ACCEPTANCE TESTS
+
+Before declaring the application complete, verify the following.
+
+## Offline functionality
+
+- The cached application shell loads offline.
+- Saved properties remain accessible.
+- Booking drafts survive refresh where browser storage permits.
+- Local drafts are clearly distinguished from submitted bookings.
+- Manual synchronization works.
+- Failed operations remain available for retry.
+- Duplicate synchronization does not create duplicate reservations.
+- Conflicting reservations are detected.
+- Cached availability has a clear freshness indicator.
+
+## SmartCall
+
+- Booking requests generate correct notification events.
+- Voice scripts contain actual booking details.
+- SMS previews match the reservation.
+- Keypad input triggers the correct workflow.
+- Availability is revalidated before confirmation.
+- Failed calls are recorded accurately.
+- Retries are bounded.
+- Escalation works.
+- Demo events are labelled as simulations.
+- Live mode requires actual configuration and consent.
+
+## Language support
+
+- Odia, English and Hindi work across all major screens.
+- Odia is not limited to the homepage.
+- Language switching does not lose unsaved form data.
+- Unicode survives persistence and synchronization.
+- Booking statuses and error messages are localized.
+- Host notification preferences are respected.
+- SMS length and encoding are handled.
+- Voice scripts use the correct supported language.
+
+## Roles and booking safety
+
+- Travellers cannot edit unrelated bookings.
+- Hosts cannot access other hosts' private data.
+- Coordinators are restricted to authorized assignments.
+- Ordinary users cannot invoke administrative actions.
+- Critical actions are audited.
+- Overlapping reservations cannot both be confirmed for the same inventory.
+- Unconfirmed requests are never shown as confirmed.
+
+## Application quality
+
+- No broken routes.
+- No nonfunctional controls.
+- No uncaught errors in the primary booking journey.
+- No exposed secrets.
+- No fake provider success.
+- No fake payments.
+- No fabricated official verification.
+- No misleading offline claims.
+- Responsive desktop and mobile layouts.
+- Clear setup instructions.
+- Clear production limitations.
+
+---
+
+# 26. IMPLEMENTATION ORDER
+
+Implement the application in coherent stages, but continue until all stages are complete.
+
+**Stage 1:** Establish the brand, design system, navigation, localization, authentication and shared data model.
+
+**Stage 2:** Implement property discovery, listing management and the complete online booking lifecycle.
+
+**Stage 3:** Implement IndexedDB, PWA caching, offline drafts, synchronization, retry logic and conflict detection.
+
+**Stage 4:** Implement SmartCall, SMS, secure provider adapters, keypad responses and simulation mode.
+
+**Stage 5:** Implement coordinator operations, host onboarding, arrival packs, community services and incident management.
+
+**Stage 6:** Implement AI assistance, Odia/English/Hindi localization, analytics, administrative controls and audit logs.
+
+**Stage 7:** Test the complete booking journey, offline behavior, permissions, language switching and integration failure handling. Correct any issues that can be fixed within the environment.
+
+Do not discard earlier functionality while adding later modules.
+
+Do not stop after Stage 1.
+
+If a live external integration needs my credentials, finish the safely implementable code, keep the integration in simulation mode, and provide exact activation instructions.
+
+Never claim that an unconfigured external service is live.
+
+## FINAL PRODUCT STANDARD
+
+Deliver one complete, polished, connected application named SETUVANA.
+
+It must demonstrate a reliable chain from traveller discovery to booking request, host communication, reservation confirmation and arrival preparation.
+
+It must serve users in Odia, English and Hindi.
+
+It must work intelligently with good connectivity, adapt to weak connectivity, preserve useful work offline, and reconnect safely.
+
+It must give a host with a basic keypad phone a practical way to receive and respond to bookings without requiring mobile internet.
+
+**Build SETUVANA as a working product, not just an impressive-looking prototype.**

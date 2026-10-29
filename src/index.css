@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+@layer base {
+  html {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Oriya", "Kalinga", "Noto Sans", sans-serif;
+    color: #1c1917;
+    background-color: #faf8f5;
+  }
+
+  /* Ensure Odia script glyphs do not get truncated with cramped line heights */
+  body {
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* Print styling for Arrival Pack and Coordinator Daily Registers */
+@media print {
+  body {
+    background-color: white !important;
+    color: black !important;
+  }
+
+  header, nav, footer, button, .print\:hidden {
+    display: none !important;
+  }
+
+  #printable-arrival-pack, #printable-register {
+    display: block !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+}

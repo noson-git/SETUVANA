@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SETUVANA - Smart Rural Tourism &amp; Offline Homestays</title>
+    <meta name="description" content="Smart rural tourism, offline-first homestay booking &amp; AI connectivity platform for Odisha tribal and rural communities." />
+    <meta property="og:title" content="SETUVANA - Smart Rural Tourism &amp; Offline Homestays" />
+    <meta property="og:description" content="Smart rural tourism, offline-first homestay booking &amp; AI connectivity platform for Odisha tribal and rural communities." />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#133926" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Oriya:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js').catch(function(err) {
+            console.log('ServiceWorker registration error:', err);
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
+

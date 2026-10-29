@@ -1,0 +1,10 @@
+{
+  "name": "SETUVANA - Smart Rural Tourism & Offline Homestays",
+  "description": "Smart rural tourism, offline-first homestay booking & AI connectivity platform for Odisha tribal and rural communities.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

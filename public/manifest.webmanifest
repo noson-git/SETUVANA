@@ -1,0 +1,16 @@
+{
+  "name": "SETUVANA - Smart Rural Tourism & Offline Homestays",
+  "short_name": "SETUVANA",
+  "description": "Smart rural tourism, offline-first homestay booking & AI connectivity platform for Odisha tribal and rural communities.",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#133926",
+  "background_color": "#faf8f5",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}
