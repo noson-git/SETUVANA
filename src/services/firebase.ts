@@ -21,19 +21,18 @@ try {
   console.warn('firebase-applet-config.json not found directly, using fallback structure');
 }
 
-const app = !getApps().length
-  ? initializeApp(
-      firebaseConfig?.default ||
-        firebaseConfig || {
-          apiKey: 'AIzaSyBWK2o2ee7jPR60zGQSGOtSMGuMc0Ad8JA',
-          authDomain: 'gen-lang-client-0632465713.firebaseapp.com',
-          projectId: 'gen-lang-client-0632465713',
-          storageBucket: 'gen-lang-client-0632465713.firebasestorage.app',
-          messagingSenderId: '351834238729',
-          appId: '1:351834238729:web:c4af194dc0c05fe495edd8',
-        }
-    )
-  : getApp();
+const config =
+  firebaseConfig?.default ||
+  firebaseConfig || {
+    apiKey: (typeof import.meta !== 'undefined' && (import.meta as any).env?.VITE_FIREBASE_API_KEY) || '',
+    authDomain: '',
+    projectId: '',
+    storageBucket: '',
+    messagingSenderId: '',
+    appId: '',
+  };
+
+const app = !getApps().length ? initializeApp(config) : getApp();
 
 export const auth = getAuth(app);
 
