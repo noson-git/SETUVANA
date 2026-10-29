@@ -293,9 +293,12 @@ export const HostView: React.FC<HostViewProps> = ({
           </div>
 
           <button
-            onClick={() => hostBookings[0] && onOpenSmartCall(hostBookings[0])}
-            disabled={hostBookings.length === 0}
-            className="w-full py-2.5 bg-amber-600 hover:bg-amber-500 text-black font-bold rounded-xl transition flex items-center justify-center gap-1.5 text-xs shadow-md"
+            onClick={() => {
+              const activeBookingForHost = hostBookings[0] || bookings[0] || null;
+              if (activeBookingForHost) onOpenSmartCall(activeBookingForHost);
+            }}
+            disabled={hostBookings.length === 0 && bookings.length === 0}
+            className="w-full py-2.5 bg-amber-600 hover:bg-amber-500 disabled:opacity-40 text-black font-bold rounded-xl transition flex items-center justify-center gap-1.5 text-xs shadow-md"
           >
             <PhoneCall className="w-4 h-4 text-black" />
             <span>Launch Keypad Call Screen</span>

@@ -206,6 +206,17 @@ export const CoordinatorView: React.FC<CoordinatorViewProps> = ({
 
                 <div className="flex items-center gap-2">
                   <button
+                    onClick={() => {
+                      const relatedBooking = bookings.find((b) => b.id === task.bookingId) || bookings[0];
+                      if (relatedBooking) onOpenSmartCall(relatedBooking);
+                    }}
+                    className="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-black font-bold text-xs flex items-center gap-1 shadow-xs transition"
+                    title="Open SmartCall Keypad Simulator for this host"
+                  >
+                    <PhoneCall className="w-3.5 h-3.5 text-black" />
+                    <span>Simulate Call</span>
+                  </button>
+                  <button
                     onClick={() => onResolveTask(task.id)}
                     className="px-3 py-1.5 rounded-lg bg-emerald-800 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1 shadow-xs transition"
                   >
