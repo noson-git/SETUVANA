@@ -3,7 +3,7 @@
  * Mounts Vite Middlewares in Dev / Dist Static Serving in Prod on Port 3000
  */
 
-import { Request, Response } from 'express';
+import express, { Request, Response } from 'express';
 import { createServer as createViteServer } from 'vite';
 import path from 'path';
 import { app } from './src/serverApp.ts';
@@ -16,22 +16,16 @@ async function startServer() {
     });
     app.use(vite.middlewares);
   } else {
-    app.use(expressStaticMiddleware());
+    app.use(express.static('dist'));
     app.get('*', (req: Request, res: Response) => {
       res.sendFile(path.resolve('dist/index.html'));
     });
   }
 
-  const PORT = 3000;
+  const PORT = Number(process.env.PORT) || 3000;
   app.listen(PORT, '0.0.0.0', () => {
     console.log(`SETUVANA full-stack platform active on port ${PORT}`);
   });
-}
-
-function expressStaticMiddleware() {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const express = require('express');
-  return express.static('dist');
 }
 
 startServer();

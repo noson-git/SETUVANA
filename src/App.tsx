@@ -3,7 +3,7 @@
  * Smart Rural Tourism, Offline-First Homestay Booking & AI Connectivity Platform
  */
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   Language,
   UserRole,
@@ -33,6 +33,7 @@ import {
   idbSaveHomestays,
   idbGetBookings,
   idbSaveBooking,
+  idbGetBookingById,
   idbGetQueue,
   idbEnqueueAction,
   idbRemoveQueueItem,
@@ -51,6 +52,14 @@ export default function App() {
   const [isSyncing, setIsSyncing] = useState<boolean>(false);
   const [lastSyncTime, setLastSyncTime] = useState<string | null>(null);
   const [queue, setQueue] = useState<OfflineActionQueueItem[]>([]);
+  const [syncNotice, setSyncNotice] = useState<string | null>(null);
+
+  // Keeps the stable sync callback aware of the latest connectivity mode
+  // without re-creating it (and so without re-binding the online/offline listeners).
+  const connectivityRef = useRef<ConnectivityMode>('good');
+  useEffect(() => {
+    connectivityRef.current = connectivityMode;
+  }, [connectivityMode]);
 
   // Domain Data State
   const [homestays, setHomestays] = useState<Homestay[]>(INITIAL_HOMESTAYS);
@@ -150,22 +159,94 @@ export default function App() {
   }, [connectivityMode]);
 
   // Synchronization Routine
+  const MAX_SYNC_ATTEMPTS = 3;
+
   const handleManualSync = useCallback(async () => {
     setIsSyncing(true);
 
     try {
-      // 1. Drain pending offline queue items
+      // 1. Drain pending offline queue items.
+      //    A queued create_booking only ever advances to "request submitted /
+      //    awaiting host response" — it is never auto-confirmed locally.
       const currentQueue = await idbGetQueue();
-      for (const item of currentQueue) {
-        if (item.actionType === 'create_booking') {
-          const res = await fetch('/api/bookings', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(item.payload),
-          });
-          const data = await res.json();
-          if (data.success) {
+      if (connectivityRef.current !== 'offline') {
+        for (const item of currentQueue) {
+          if (item.actionType !== 'create_booking') continue;
+
+          // Mark the draft as actively syncing so the traveller sees movement
+          if (item.localBookingId) {
+            const draft = await idbGetBookingById(item.localBookingId);
+            if (draft) {
+              const syncingDraft = { ...draft, status: 'pending_sync' as const, syncStatus: 'syncing' as const, updatedAt: new Date().toISOString() };
+              await idbSaveBooking(syncingDraft);
+              setBookings((prev) => prev.map((b) => (b.id === draft.id ? syncingDraft : b)));
+            }
+          }
+
+          let data: any = null;
+          let httpStatus = 0;
+          try {
+            const res = await fetch('/api/bookings', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(item.payload),
+            });
+            httpStatus = res.status;
+            data = await res.json().catch(() => null);
+          } catch {
+            data = null;
+          }
+
+          const applyToDraft = async (patch: Partial<Booking>) => {
+            if (!item.localBookingId) return;
+            const draft = await idbGetBookingById(item.localBookingId);
+            if (!draft) return;
+            const updated: Booking = {
+              ...draft,
+              ...patch,
+              updatedAt: new Date().toISOString(),
+            } as Booking;
+            await idbSaveBooking(updated);
+            setBookings((prev) => prev.map((b) => (b.id === updated.id ? updated : b)));
+          };
+
+          if (data?.success && data.booking) {
+            // Server acknowledged the request. Adopt the server record but keep
+            // the traveller-facing lifecycle explicit: submitted != confirmed.
+            const serverBooking: Booking = data.booking;
+            await applyToDraft({
+              ...serverBooking,
+              status: serverBooking.status === 'confirmed' ? 'confirmed' : 'awaiting_host_response',
+              syncStatus: 'synced',
+            });
             await idbRemoveQueueItem(item.id);
+          } else if (httpStatus === 409) {
+            // Real availability conflict: surface it, never silently confirm.
+            await applyToDraft({
+              status: 'conflict_review',
+              syncStatus: 'conflict',
+              notes: data?.error || 'Conflicting reservation detected during sync.',
+            });
+            await idbRemoveQueueItem(item.id);
+            setSyncNotice(
+              'A saved offline request needs review: the room was confirmed for those dates by another guest before your device reconnected. Nothing was confirmed for you — your village coordinator has been notified.'
+            );
+          } else {
+            // Transient failure: bounded retry, then park it as visibly failed.
+            const attempts = (item.attempts || 0) + 1;
+            const exhausted = attempts >= MAX_SYNC_ATTEMPTS;
+            await idbEnqueueAction({
+              ...item,
+              attempts,
+              lastError: data?.error || `Network error (HTTP ${httpStatus || 'offline'})`,
+            });
+            await applyToDraft({
+              status: 'saved_offline',
+              syncStatus: exhausted ? 'failed' : 'waiting',
+              notes: exhausted
+                ? 'Still on this device. Automatic retries were exhausted — a coordinator can submit this on your behalf.'
+                : 'Waiting to retry. This request has not reached the host yet.',
+            });
           }
         }
       }
@@ -183,8 +264,20 @@ export default function App() {
         await idbSaveHomestays(resH.homestays);
       }
       if (resB.success && resB.bookings) {
-        setBookings(resB.bookings);
-        for (const b of resB.bookings) {
+        // Merge rather than replace: locally-saved drafts that the server has not
+        // seen yet must not disappear from the traveller's list on refresh.
+        const serverBookings: Booking[] = resB.bookings;
+        const serverIds = new Set(serverBookings.map((b) => b.id));
+        setBookings((prev) => {
+          const stillLocal = prev.filter(
+            (b) =>
+              !serverIds.has(b.id) &&
+              ['saved_offline', 'pending_sync', 'conflict_review'].includes(b.status as string)
+          );
+          for (const b of stillLocal) void idbSaveBooking(b);
+          return [...stillLocal, ...serverBookings];
+        });
+        for (const b of serverBookings) {
           await idbSaveBooking(b);
         }
       }
@@ -325,6 +418,42 @@ export default function App() {
 
     return newBooking;
   };
+
+  // Save an Offline Draft: persists the local draft AND enqueues it for sync.
+  // Keeping both writes atomic is what makes the traveller's promise
+  // ("we'll send this when you reconnect") actually true.
+  const handleSaveOfflineDraft = useCallback(
+    async (draft: Booking): Promise<void> => {
+      const queueItem: OfflineActionQueueItem = {
+        id: `q-${draft.id}`,
+        actionType: 'create_booking',
+        payload: {
+          propertyId: draft.propertyId,
+          roomId: draft.roomId,
+          guestName: draft.guestName,
+          guestPhone: draft.guestPhone,
+          guestEmail: draft.guestEmail,
+          checkInDate: draft.checkInDate,
+          checkOutDate: draft.checkOutDate,
+          estimatedArrivalTime: draft.estimatedArrivalTime,
+          guestsCount: draft.guestsCount,
+          pickupRequested: draft.pickupRequested,
+          specialRequests: draft.specialRequests,
+          idempotencyKey: draft.idempotencyKey,
+        },
+        createdAt: new Date().toISOString(),
+        attempts: 0,
+        localBookingId: draft.id,
+      };
+
+      await idbSaveBooking(draft);
+      await idbEnqueueAction(queueItem);
+
+      setBookings((prev) => [draft, ...prev.filter((b) => b.id !== draft.id)]);
+      setQueue(await idbGetQueue());
+    },
+    []
+  );
 
   // Host Keypad Response / DTMF Handler (Hybrid: Server API with seamless local simulation)
   const handleKeypadResponse = async (bookingId: string, dtmfInput: '1' | '2' | '3' | '4') => {
@@ -508,7 +637,8 @@ export default function App() {
   };
 
   const handleSimulateMissedCall = () => {
-    if (bookings[0]?.notificationHistory[0]) {
+    const target = bookings[0];
+    if (target?.notificationHistory[0]) {
       setBookings((prev) =>
         prev.map((b, idx) =>
           idx === 0
@@ -526,6 +656,33 @@ export default function App() {
             : b
         )
       );
+
+      // A missed call must not be silent: the booking stays in its current
+      // lifecycle state and the follow-up appears as an open coordinator action.
+      setTasks((prev) => {
+        const alreadyOpen = prev.some(
+          (t) => t.bookingId === target.id && t.status !== 'completed'
+        );
+        if (alreadyOpen) return prev;
+        return [
+          {
+            id: `task-missed-${Date.now()}`,
+            coordinatorId: 'coord-jiten-01',
+            bookingId: target.id,
+            homestayId: target.propertyId,
+            homestayName: target.propertyName,
+            hostName: target.hostName,
+            hostPhone: target.hostPhone,
+            taskType: 'unanswered_call_followup',
+            title: `Unanswered SmartCall for Ref ${target.reference}`,
+            description: `Automated voice call was not answered after 2 attempts. The booking has not been confirmed. Please call or visit host ${target.hostName} and record their response.`,
+            priority: 'urgent',
+            status: 'pending',
+            createdAt: new Date().toISOString(),
+          },
+          ...prev,
+        ];
+      });
     }
   };
 
@@ -574,6 +731,20 @@ export default function App() {
 
       {/* Main Role-Specific Viewport */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+        {/* Sync outcome notice: conflicts and parked drafts must never pass silently */}
+        {syncNotice && (
+          <div className="mb-4 bg-amber-50 border border-amber-300 text-amber-900 rounded-2xl p-3.5 flex items-start gap-3 shadow-xs">
+            <span className="font-bold text-amber-700 text-sm shrink-0">Sync notice</span>
+            <p className="text-xs leading-relaxed flex-1">{syncNotice}</p>
+            <button
+              onClick={() => setSyncNotice(null)}
+              className="text-amber-700 hover:text-amber-900 text-xs font-bold shrink-0"
+              aria-label="Dismiss sync notice"
+            >
+              Dismiss
+            </button>
+          </div>
+        )}
         {activeTab === 'explore' && (
           <TravellerView
             currentLanguage={currentLanguage}
@@ -598,6 +769,7 @@ export default function App() {
             }}
             onOpenBookabilityPassport={(h) => setPassportHomestay(h)}
             onSubmitBookingRequest={handleSubmitBookingRequest}
+            onSaveOfflineDraft={handleSaveOfflineDraft}
             isBookingsDrawerOpen={isBookingsDrawerOpen}
             setIsBookingsDrawerOpen={setIsBookingsDrawerOpen}
           />

@@ -246,4 +246,9 @@ export interface OfflineActionQueueItem {
   createdAt: string;
   attempts: number;
   lastError?: string;
+  /**
+   * Links a queued action back to the locally-saved draft Booking it belongs to,
+   * so the draft's status can be advanced once the server acknowledges it.
+   */
+  localBookingId?: string;
 }
