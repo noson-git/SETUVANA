@@ -35,7 +35,6 @@ import {
   ChevronRight,
   Layers,
 } from 'lucide-react';
-import { idbSaveBooking } from '../services/db';
 
 interface TravellerViewProps {
   currentLanguage: Language;
@@ -49,6 +48,7 @@ interface TravellerViewProps {
   onOpenSmartCall: (booking: Booking) => void;
   onOpenBookabilityPassport: (homestay: Homestay) => void;
   onSubmitBookingRequest: (bookingData: any) => Promise<Booking | null>;
+  onSaveOfflineDraft: (draft: Booking) => Promise<void>;
   isBookingsDrawerOpen: boolean;
   setIsBookingsDrawerOpen: (open: boolean) => void;
 }
@@ -65,6 +65,7 @@ export const TravellerView: React.FC<TravellerViewProps> = ({
   onOpenSmartCall,
   onOpenBookabilityPassport,
   onSubmitBookingRequest,
+  onSaveOfflineDraft,
   isBookingsDrawerOpen,
   setIsBookingsDrawerOpen,
 }) => {
@@ -208,7 +209,7 @@ export const TravellerView: React.FC<TravellerViewProps> = ({
         notificationHistory: [],
       };
 
-      await idbSaveBooking(offlineBooking);
+      await onSaveOfflineDraft(offlineBooking);
       setBookingHomestay(null);
       setIsSubmitting(false);
       setOfflineNotice(
